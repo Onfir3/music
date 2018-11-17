@@ -3,7 +3,7 @@ var EventCenter = {
         $(document).on(type, handler)
     },
     fire: function (type, data) {
-        $(document), trigger(type, data)
+        $(document).trigger(type, data)
     }
 }
 
@@ -62,13 +62,13 @@ var Footer = {
             $(this).addClass('active')
             .siblings().removeClass('active')
 
-            EventCenter.fire('select-albumn',$(this).atter('data-channel-id'))
+            EventCenter.fire('select-albumn',$(this).attr('data-channel-id'))
         })
     },
 
     render() {
         var _this = this
-        $.getJSON('http://api.jirengu.com/fm/getChannels.php')
+        $.getJSON('//api.jirengu.com/fm/getChannels.php')
             .done(function (ret) {
                 _this.renderFooter(ret.channels)
             }).fail(function () {
@@ -99,15 +99,23 @@ var Footer = {
 }
 
 
-var App = {
+var Fm = {
     init: function(){
         this.bind()
     },
     bind: function(){
-        EventCenter.on('select-albumn', function(e,data){
-            console.log('select',data)
+        var _this = this
+        EventCenter.on('select-albumn', function(e,channelId){
+            _this.channelId = channelId
+            _this.loadMusic()
+        })
+    },
+    loadMusic(){
+        $.getJSON('//jirenguapi.applinzi.com/fm/getSong.php',{channel:this.channelId})
+        .done(function(ret){   //.done就是当数据到来以后我们输出打印的数据
+            console.log(ret)
         })
     }
 }
 Footer.init()
-App.init()
+Fm.init()
