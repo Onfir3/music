@@ -16,6 +16,7 @@ var Footer = {
         this.$rightBtn = this.$footer.find('.icon-right')
         this.isToEnd = false
         this.isToStart = true
+        this.isAnimate = false
         this.bind()
         this.render()
     },
@@ -23,12 +24,15 @@ var Footer = {
     bind: function () {
         var _this = this
         this.$rightBtn.on('click', function () {
+            if(_this.isAnimate) return
             var itemWidth = _this.$box.find('li').outerWidth(true)
             var rowCount = Math.floor(_this.$box.width() / itemWidth) //Math.floor()取整数
             if (!_this.isToEnd) {
+                _this.isAnimate = true
                 _this.$ul.animate({
                     left: '-=' + rowCount * itemWidth
                 }, 400, function () {
+                    _this.isAnimate = false
                     _this.isToStart = false
                     if (parseFloat(_this.$box.width()) - parseFloat(_this.$ul.css('left')) >= parseFloat(_this.$ul.css('width'))) {
                         _this.isToEnd = true
@@ -37,12 +41,15 @@ var Footer = {
             }
         })
         this.$leftBtn.on('click',function(){
+            if(_this.isAnimate) return
             var itemWidth = _this.$box.find('li').outerWidth(true)
             var rowCount = Math.floor(_this.$box.width() / itemWidth)
             if(!_this.isToStart){
+                _this.isAnimate = true
                 _this.$ul.animate({
                     left: '+=' + rowCount * itemWidth
                 }, 400, function () {
+                    _this.isAnimate = false
                     _this.isToEnd = false
                     if (parseFloat(_this.$ul.css('left')) >= -1) {
                         _this.isToStart = true
