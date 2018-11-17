@@ -193,7 +193,9 @@ footer h3 {
     font-size: 2vh;
     color: rgba(255, 255, 255, 0.6)
 }
-
+footer li.active {
+    box-shadow: 0 0 .5vh .5vh rgba(255, 255, 255, 0.8);
+}
 footer .iconfont {
     position: absolute;
     top: 4vh;

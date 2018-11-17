@@ -50,6 +50,13 @@ var Footer = {
                 })
             }  
         })
+
+        this.$footer.on('click','li',function(){
+            $(this).addClass('active')
+            .siblings().removeClass('active')
+
+            EventCenter.fire('select-albumn',$(this).atter('data-channel-id'))
+        })
     },
 
     render() {
@@ -84,4 +91,16 @@ var Footer = {
     }
 }
 
+
+var App = {
+    init: function(){
+        this.bind()
+    },
+    bind: function(){
+        EventCenter.on('select-albumn', function(e,data){
+            console.log('select',data)
+        })
+    }
+}
 Footer.init()
+App.init()
