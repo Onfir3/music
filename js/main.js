@@ -116,6 +116,21 @@ var Fm = {
             _this.loadMusic(function(){
                 _this.setMusic()
             })
+        }),
+        _this.$container.find('.btn-play').on('click',function(){
+            var $btn = $(this)
+            if($btn.hasClass('icon-play')){
+                $btn.removeClass('icon-play').addClass('icon-videopuase')
+                _this.audio.play()
+            }else{
+                $btn.removeClass('icon-videopuase').addClass('icon-play')
+                _this.audio.pause()
+            }
+        }),
+        _this.$container.find('.btn-next').on('click',function(){
+            _this.loadMusic(function(){
+                _this.setMusic()
+            })
         })
     },
     loadMusic(callback){
