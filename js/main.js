@@ -162,6 +162,7 @@ var Fm = {
         _this.$container.find('.detail h1').text(_this.song.title)
         _this.$container.find('.detail .author').text(_this.song.artist)
         _this.$container.find('.detail .tag').text(_this.channelName)
+        _this.$container.find('.btn-play').removeClass('icon-play').addClass('icon-videopuase')
     },
     updateStatus(){
         var _this = this
