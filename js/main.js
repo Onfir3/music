@@ -132,6 +132,18 @@ var Fm = {
                 _this.setMusic()
             })
         })
+        _this.audio.addEventListener('play',function(){
+            console.log('play')
+            clearInterval(_this.statusClock)
+            _this.statusClock = setInterval(function(){
+                _this.updateStatus()
+            },1000)
+        })
+        _this.audio.addEventListener('pause',function(){
+            clearInterval(_this.statusClock)
+            console.log('pause')
+            
+        })
     },
     loadMusic(callback){
         var _this = this
@@ -150,6 +162,15 @@ var Fm = {
         _this.$container.find('.detail h1').text(_this.song.title)
         _this.$container.find('.detail .author').text(_this.song.artist)
         _this.$container.find('.detail .tag').text(_this.channelName)
+    },
+    updateStatus(){
+        var _this = this
+        var min = Math.floor(_this.audio.currentTime/60)
+        var second = Math.floor(_this.audio.currentTime%60)+''
+        second = second.length == 2?second:'0'+second
+        _this.$container.find('.current-time').text(min+':'+second)
+        _this.$container.find('.bar-progress').css('width',
+        _this.audio.currentTime/_this.audio.duration*100 + '%')
     }
 }
 Footer.init()
