@@ -218,3 +218,7 @@ footer .icon-left {
 footer .icon-right {
     right: -8vh;
 }
+.boomText {
+    display: inline-block;
+    opacity: 0;
+}

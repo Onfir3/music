@@ -220,6 +220,6 @@ $.fn.boomText = function(type){
 }
 
 
-$('p').boomText('rubberBand')
+$('p').boomText('roomIn')
 Footer.init()
 Fm.init()
