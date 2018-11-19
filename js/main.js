@@ -154,6 +154,7 @@ var Fm = {
         var _this = this
         $.getJSON('//jirenguapi.applinzi.com/fm/getLyric.php',{sid:_this.song.sid})
         .done(function(ret){
+            console.log(ret.lyric)
             var lyric = ret.lyric
             var lyricObj = {}
             lyric.split('\n').forEach(function(line){
@@ -190,8 +191,35 @@ var Fm = {
         var line = _this.lyricObj['0'+min+':'+second]
         if(line){
             _this.$container.find('.lyric p').text(line)
+            .boomText()
         }
     }
 }
+
+
+$.fn.boomText = function(type){
+    var _this = this
+    type = type || 'rollIn'
+    console.log(type)
+    _this.html(function(){
+        var arr = $(this).text().split('').map(function(word){
+            return '<span class="boomText">'+ word +'</span>'
+        })
+        return arr.join('')
+    })
+
+    var index = 0
+    var $boomTexts = $(this).find('span')
+    var clock = setInterval(function(){
+        $boomTexts.eq(index).addClass('animated' + type)
+        index++
+        if(index >= $boomTexts.length){
+            clearInterval(clock)
+        }
+    },300)
+}
+
+
+$('p').boomText('rollIn')
 Footer.init()
 Fm.init()
