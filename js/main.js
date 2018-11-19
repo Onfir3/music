@@ -113,9 +113,7 @@ var Fm = {
         EventCenter.on('select-albumn', function(e,channelObj){
             _this.channelId = channelObj.channelId
             _this.channelName = channelObj.channelName
-            _this.loadMusic(function(){
-                _this.setMusic()
-            })
+            _this.loadMusic()
         }),
         _this.$container.find('.btn-play').on('click',function(){
             var $btn = $(this)
@@ -128,9 +126,7 @@ var Fm = {
             }
         }),
         _this.$container.find('.btn-next').on('click',function(){
-            _this.loadMusic(function(){
-                _this.setMusic()
-            })
+            _this.loadMusic()
         })
         _this.audio.addEventListener('play',function(){
             console.log('play')
@@ -147,10 +143,29 @@ var Fm = {
     },
     loadMusic(callback){
         var _this = this
-        $.getJSON('//jirenguapi.applinzi.com/fm/getSong.php',{channel:this.channelId})
+        $.getJSON('//jirenguapi.applinzi.com/fm/getSong.php',{channel:_this.channelId})
         .done(function(ret){   //.done就是当数据到来以后我们输出打印的数据
             _this.song = ret['song'][0]
-            callback()
+            _this.setMusic()
+            _this.loadLyric()
+        })
+    },
+    loadLyric(){
+        var _this = this
+        $.getJSON('//jirenguapi.applinzi.com/fm/getLyric.php',{sid:_this.song.sid})
+        .done(function(ret){
+            var lyric = ret.lyric
+            var lyricObj = {}
+            lyric.split('\n').forEach(function(line){
+                var times = line.match(/\d{2}:\d{2}/g)
+                var str = line.replace(/\[.+?\]/g,'')
+                if(Array.isArray(times)){
+                    times.forEach(function(time){
+                        lyricObj[time] = str
+                    })
+                }
+            })
+            _this.lyricObj = lyricObj
         })
     },
     setMusic(){
@@ -172,6 +187,10 @@ var Fm = {
         _this.$container.find('.current-time').text(min+':'+second)
         _this.$container.find('.bar-progress').css('width',
         _this.audio.currentTime/_this.audio.duration*100 + '%')
+        var line = _this.lyricObj['0'+min+':'+second]
+        if(line){
+            _this.$container.find('.lyric p').text(line)
+        }
     }
 }
 Footer.init()
