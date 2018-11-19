@@ -127,14 +127,14 @@ var Fm = {
         }),
         _this.$container.find('.btn-next').on('click',function(){
             _this.loadMusic()
-        })
+        }),
         _this.audio.addEventListener('play',function(){
             console.log('play')
             clearInterval(_this.statusClock)
             _this.statusClock = setInterval(function(){
                 _this.updateStatus()
             },1000)
-        })
+        }),
         _this.audio.addEventListener('pause',function(){
             clearInterval(_this.statusClock)
             console.log('pause')
@@ -211,7 +211,7 @@ $.fn.boomText = function(type){
     var index = 0
     var $boomTexts = $(this).find('span')
     var clock = setInterval(function(){
-        $boomTexts.eq(index).addClass('animated' + type)
+        $boomTexts.eq(index).addClass('animated ' + type)
         index++
         if(index >= $boomTexts.length){
             clearInterval(clock)
@@ -220,6 +220,6 @@ $.fn.boomText = function(type){
 }
 
 
-$('p').boomText('rollIn')
+$('p').boomText('rubberBand')
 Footer.init()
 Fm.init()
